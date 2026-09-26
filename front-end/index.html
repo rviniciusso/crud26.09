@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatorio de equipamentos</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <section class="container">
+        <form class="cadastrar">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome">
+
+            <label for="categoria">Categoria:</label>
+            <input type="text" id="categoria">
+
+            <label for="marca">Marca:</label>
+            <input type="text" id="marca">
+
+            <label for="tipo-problema">Problema:</label>
+            <input type="text" id="tipo-problema">
+
+            <label for="status">Status:</label>
+            <select name="status" id="status">
+                <option value="1">Em análise</option>
+                <option value="2">Em manutenção</option>
+                <option value="3">Finalizado</option>
+            </select>
+            <button type="submit" id="btn-cad">Cadastrar</button>
+        </form>
+    </section>
+    <section class="container">
+        <form class="carregar">
+            <button id="btn-load">Carregar Itens</button>
+            <input type="text" id="filter">
+        </form>
+        <div class="itens" id="container-itens" class="container-itens">
+            <div class="itens">
+                <div id="item-chamado">
+                    <p></p>
+                </div>
+                <div>
+                    <div class="container-btn">
+                        <button>Atualizar</button>
+                        <button>Excluir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+
+        </div>
+    </section>
+    <script src="./index.js"></script>
+</body>
+</html>
