@@ -19,14 +19,14 @@
             <label for="marca">Marca:</label>
             <input type="text" id="marca">
 
-            <label for="tipo-problema">Problema:</label>
-            <input type="text" id="tipo-problema">
+            <label for="problema">Problema:</label>
+            <input type="text" id="problema">
 
             <label for="status">Status:</label>
             <select name="status" id="status">
-                <option value="1">Em análise</option>
-                <option value="2">Em manutenção</option>
-                <option value="3">Finalizado</option>
+                <option value="Em análise">Em análise</option>
+                <option value="Em manutenção">Em manutenção</option>
+                <option value="Finalizado">Finalizado</option>
             </select>
             <button type="submit" id="btn-cad">Cadastrar</button>
         </form>
@@ -35,18 +35,17 @@
         <form class="carregar">
             <button id="btn-load">Carregar Itens</button>
             <input type="text" id="filter">
-        </form>
-        <div class="itens" id="container-itens" class="container-itens">
-            <div class="itens">
-                <div id="item-chamado">
-                    <p></p>
-                </div>
+            
                 <div>
                     <div class="container-btn">
                         <button>Atualizar</button>
                         <button>Excluir</button>
                     </div>
                 </div>
+        </form>
+        <div class="itens" id="container-itens" class="container-itens">
+            <div class="item">
+                <p>Carregue os chamados</p>
             </div>
         </div>
         <div>

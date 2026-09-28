@@ -1,33 +1,68 @@
-const url = process.env.API_URL;
-
 const btnCarregar = document.getElementById("btn-load");
-const filter = document.getElementById("filter");
 const containerItens = document.getElementById("container-itens");
-const formItem = document.getElementById("cadastrar")
+const formItem = document.getElementById("cadastrar");
+const btnCadastrar = document.getElementById("btn-cad");
 
-document.addEventListener("DOMContentLoaded", () => {
-    carregarItens();
-});
 
-btnCarregar.addEventListener("click", carregarItens);
+btnCarregar.addEventListener("click", async (event) => {
+    event.preventDefault();
+    const filter = document.getElementById("filter").value;
+    let url = "http://localhost:3001/item";
+    
+    if (filter) {
+        url += '/:' + encodeURIComponent(filter);
+    };
 
-function obterDataHoje() {
-    const hoje = new Date();
-    const ano = hoje.getFullYear();
-    const mes = String(hoje.getMonth() + 1).padStart(2, '0');
-    const dia = String(hoje.getDate()).padStart(2, '0');
-    return `${ano}-${mes}-${dia}`;
-}
+    console.log(url);
 
-async function carregarItens() {
     try {
         const response = await fetch(url);
-        if (!response.ok) throw new Error("Erro ao buscar chamados.");
+
+        const todosChamados = await response.json();
+        todosChamados.forEach(element => {
+            containerItens.innerHTML = `
+            <div class="item">
+                <div id="item-chamado">
+                    ${element.nome},
+                    ${element.tipo},
+                    ${element.marca},
+                    ${element.problema},
+                    ${element.status}
+                </div>
+            </div>`
+        });
         
-        todosChamados = await response.json();
-        renderizarChamados(todosChamados);
+
     } catch (error) {
         console.error("Erro:", error);
-        listaChamados.innerHTML = `<p style="color: red;">Erro ao carregar chamados.</p>`;
+        containerItens.innerHTML = `<p style="color: red;">Erro ao carregar chamados.</p>`;
+        alert('Erro ao carregar');
     }
-}
+
+});
+
+btnCadastrar.addEventListener("click", async (event) =>{
+    event.preventDefault();
+    let url = "http://localhost:3001/item";
+    const nome = document.getElementById("nome").value;
+    const categoria = document.getElementById("categoria").value;
+    const marca = document.getElementById("marca").value;
+    const problema = document.getElementById("problema").value;
+    const status = document.getElementById("status").value;
+    
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type': 'aplication/json'},
+        body: JSON.stringify({nome: nome, tipo: categoria, marca: marca, problema: problema, status: status})
+    })
+    const resultado = await response.json();
+    if (resultado.status == 201) {
+        alert('Produto cadastrado com sucesso!');
+    }else if (resultado.status == 400) {
+        alert('campo ausente.');
+    }else if (resultado.status == 409) {
+        alert('Produto já existe.');
+    }
+});
+
+

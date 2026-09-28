@@ -2,18 +2,17 @@ const {listarItem, buscarItem, cadastrarItem, atualizarItem, deletarItem} = requ
 
 async function listar(req, res) {
     try {
-        const {data, error} = await listarItem();
-        if(error) throw error;
+        const {data} = await listarItem();
         res.status(200).json(data);
     } catch (error) {
         res.status(500).json({error: error.message})
     }
-    
 }
 
 async function buscar(req, res) {
     try {
         const {id} = req.params;
+        console.log(id);
         const {data, error} = await buscarItem(id);
 
         if (error || !data || data.length === 0) {
@@ -31,6 +30,7 @@ async function cadastrar(req, res) {
             console.error("Erro do Supabase:", error);
             return res.status(400).json({ error: error.message });
         }
+        return res.status(201);
     }catch (error) {
         console.error("Erro no servidor",error);
         return res.status(500).json({ error: error.message});
@@ -47,6 +47,7 @@ async function atualizar(req, res) {
             console.error("Erro do Supabase:", error);
             return res.status(400).json({ error: error.message });
         }
+        return res.status(200).json(data);
     }catch (error) {
         console.error("Erro no servidor",error);
         return res.status(500).json({ error: error.message});
@@ -68,11 +69,6 @@ async function deletar(req, res) {
         res.status(500).json({ error: error.message });
     }
 }
-
-
-
-
-
 
 module.exports = {
     listar,

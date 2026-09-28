@@ -33,7 +33,7 @@ body {
         justify-content: center;
         align-items: start;
     }
-    .itens{
+    .item{
         display: flex;
         flex-direction: row;
         align-items: center;

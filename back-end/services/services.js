@@ -1,23 +1,23 @@
 const supabase = require('../data/supabase.js');
 
 function listarItem() {
-    return supabase.from("estoque").select("*");
+    return supabase.from("cadastros").select("*");
 }
 
 function buscarItem(id) {
-    return supabase.from("estoque").select("*").eq("id", id);
+    return supabase.from("cadastros").select("*").eq("id", id);
 }
 
-function cadastrarItem(estoque) {
-    return supabase.from("estoque").insert([estoque]).select();
+function cadastrarItem(cadastros) {
+    return supabase.from("cadastros").insert([cadastros]).select();
 }
 
-function atualizarItem(id, estoque) {
-    return supabase.from("estoque").update(chamado).eq("id", id).select();
+function atualizarItem(id, cadastros) {
+    return supabase.from("cadastros").update(cadastros).eq("id", id).select();
 }
 
 function deletarItem(id) {
-    return supabase.from("estoque").delete().eq("id", id);
+    return supabase.from("cadastros").delete().eq("id", id);
 }
 
 module.exports = {
