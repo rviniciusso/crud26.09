@@ -1,4 +1,4 @@
-const {listarItem, buscarItem, cadastrarItem, atualizarItem, deletarItem} = require('../services/services.js');
+const {listarItem, filtrarItens, buscarPorId, cadastrarItem, atualizarItem, deletarItem} = require('../services/services.js');
 
 async function listar(req, res) {
     try {
@@ -11,15 +11,34 @@ async function listar(req, res) {
 
 async function buscar(req, res) {
     try {
-        const {id} = req.params;
-        console.log(id);
-        const {data, error} = await buscarItem(id);
+        const { termo } = req.params;
+        const { data, error } = await filtrarItens(termo);
 
-        if (error || !data || data.length === 0) {
-            return res.status(404).json({mensagem:'item não encontrado.'});
+        if (error) {
+            return res.status(400).json({ error: error.message });
         }
-    }catch (error) {
-        res.status(500).json({error: error.message});
+
+        // Retorna o array de itens encontrados (mesmo que seja um array vazio [])
+        return res.status(200).json(data || []);
+
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}
+
+async function buscarId(req, res) {
+    try {
+        const { id } = req.params;
+        console.log("ID recebido para busca:", id); // Log do ID recebido
+        const { data, error } = await buscarPorId(id);
+
+        if (error) return res.status(400).json({ error: error.message });
+        if (!data || data.length === 0) {
+            return res.status(404).json({ error: "Item não encontrado." });
+        }
+        return res.status(200).json(data[0]);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
     }
 }
 
@@ -30,27 +49,38 @@ async function cadastrar(req, res) {
             console.error("Erro do Supabase:", error);
             return res.status(400).json({ error: error.message });
         }
-        return res.status(201);
+        return res.status(201).json(data);
     }catch (error) {
-        console.error("Erro no servidor",error);
+        console.error("Erro no servidor", error);
         return res.status(500).json({ error: error.message});
     }
 }
 
 async function atualizar(req, res) {
     try {
-        const {id} = req.params;
-        const item = req.body;
-        const {data, error} = await atualizarItem(id, item);
+        const { id } = req.params;
+        const dadosRecebidos = req.body;
 
-        if (error) {
-            console.error("Erro do Supabase:", error);
-            return res.status(400).json({ error: error.message });
+        // Filtra o objeto para manter APENAS campos preenchidos
+        const dadosFiltrados = {};
+        Object.keys(dadosRecebidos).forEach((key) => {
+            const valor = dadosRecebidos[key];
+            if (valor !== undefined && valor !== null && valor.toString().trim() !== "") {
+                dadosFiltrados[key] = valor;
+            }
+        });
+
+        // Se não houver nenhum campo preenchido para atualizar
+        if (Object.keys(dadosFiltrados).length === 0) {
+            return res.status(400).json({ error: "Nenhum campo válido foi fornecido para atualização." });
         }
+
+        const { data, error } = await atualizarItem(id, dadosFiltrados);
+
+        if (error) return res.status(400).json({ error: error.message });
         return res.status(200).json(data);
-    }catch (error) {
-        console.error("Erro no servidor",error);
-        return res.status(500).json({ error: error.message});
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
     }
 }
 
@@ -73,6 +103,7 @@ async function deletar(req, res) {
 module.exports = {
     listar,
     buscar,
+    buscarId,
     cadastrar,
     atualizar,
     deletar

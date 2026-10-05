@@ -5,9 +5,10 @@ const controllers = require('../controllers/controllers.js');
 const routes = express.Router();
 
 routes.get('/item', controllers.listar);
-routes.get("/item/:id", controllers.buscar);
+routes.get('/item/:termo', controllers.buscar);
+routes.get('/item/busca/:id', controllers.buscarId);
 routes.post('/item', controllers.cadastrar);
-routes.put('/item/:id', controllers.atualizar);
+routes.patch('/item/:id', controllers.atualizar);
 routes.delete('/item/:id', controllers.deletar);
 
 module.exports = routes;

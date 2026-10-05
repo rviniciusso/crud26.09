@@ -11,16 +11,16 @@
         <h2>Cadastre um Item</h2>
         <form class="cadastrar" id="cadastrar">
             <label for="nome">Nome:</label>
-            <input type="text" id="nome">
+            <input type="text" id="nome" required>
 
             <label for="categoria">Categoria:</label>
-            <input type="text" id="categoria">
+            <input type="text" id="categoria" required>
 
             <label for="marca">Marca:</label>
-            <input type="text" id="marca">
+            <input type="text" id="marca" required>
 
             <label for="problema">Problema:</label>
-            <input type="text" id="problema">
+            <input type="text" id="problema" required>
 
             <label for="status">Status:</label>
             <select name="status" id="status">
@@ -36,12 +36,7 @@
             <button id="btn-load">Carregar Itens</button>
             <input type="text" id="filter">
             
-                <div>
-                    <div class="container-btn">
-                        <button>Atualizar</button>
-                        <button>Excluir</button>
-                    </div>
-                </div>
+                
         </form>
         <div class="itens" id="container-itens" class="container-itens">
             <div class="item">
@@ -50,6 +45,28 @@
         </div>
         <div>
 
+        </div>
+    </section>
+    <section class="container">
+        <form class="atualizar">
+            <button id="btn-pes-att">Pesquisar</button>
+            <input type="text" id="buscaAtt" placeholder="Digite o ID do chamado">
+        </form>
+        <div class="itens" id="container-itens-att" class="container-itens">
+            <div class="item">
+                <p>Pequise um chamado para atualizar</p>
+            </div>
+        </div>
+    </section>
+    <section class="container">
+        <form class="excluir">
+            <button id="btn-pes-del">Pesquisar</button>
+            <input type="text" id="buscaDel" placeholder="Digite o ID do chamado">
+        </form>
+        <div class="itens" id="container-itens-del" class="container-itens">
+            <div class="item">
+                <p>Pequise um chamado para excluir</p>
+            </div>
         </div>
     </section>
     <script src="./index.js"></script>
